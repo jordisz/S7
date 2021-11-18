@@ -5,7 +5,8 @@
       <input type="checkbox" v-model="web">
       <label>Una pàgina web (500€)</label>
     </div>
-    <Panell 
+    <Panell
+      v-if="web" 
       v-on:paginesChanged="addPagines" 
       v-on:idiomesChanged="addIdiomes"/>
     <div class="checkbox">
