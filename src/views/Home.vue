@@ -2,7 +2,7 @@
   <div>
     <p>Què vols fer?</p>
     <div class="checkbox">
-      <input type="checkbox" v-model="web">
+      <input type="checkbox" v-model="web" @click="resetPanell">
       <label>Una pàgina web (500€)</label>
     </div>
     <Panell
@@ -64,6 +64,10 @@ export default {
     },
     addIdiomes(str) {
       this.idiomes = +str;
+    },
+    resetPanell() {
+      this.pagines = 0;
+      this.idiomes = 0;
     }
   }
 }
