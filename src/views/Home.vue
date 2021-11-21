@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <p>Què vols fer?</p>
   
     <div class="checkbox">
@@ -26,6 +26,10 @@
     
     <p>Preu: {{ preu }} €</p>
   
+    <router-link to="/benvinguda">
+      <div class="button">Torna enrera</div>
+    </router-link>
+    
   </div>
 </template>
 
@@ -42,8 +46,8 @@ export default {
       web: false,
       seo: false,
       ads: false,
-      pagines: 1,
-      idiomes: 1
+      pagines: 0,
+      idiomes: 0
     }
   },
   computed: {
@@ -84,9 +88,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+  .home {
+    width: 85vw;
+    margin: 2rem auto;
+  }
   .checkbox {
     margin-bottom: 1em;
+  }
+
+  .button {
+    display: block;
+    width: 200px;
+    text-align: center;
+    background-color: #2f532f;
+    border: 1px solid black;
+    padding: 10px 0;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
   }
 
   .grow-enter-active {

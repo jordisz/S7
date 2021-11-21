@@ -7,11 +7,11 @@ const routes = [
     name: 'Home',
     component: Home
   },
- // {
- //   path: '/benvinguda',
- //   name: 'Benvinguda',
- //   component: () => import(/* webpackChunkName: "benvinguda" */ '../views/Benvinguda.vue')
- // }
+  {
+    path: '/benvinguda',
+    name: 'Benvinguda',
+    component: () => import(/* webpackChunkName: "benvinguda" */ '../views/Benvinguda.vue')
+  }
 ]
 
 const router = createRouter({
