@@ -24,7 +24,9 @@
       <label>Una campanya de Google Ads (200€)</label>
     </div>
     
-    <p>Preu: {{ preu }} €</p>
+    <div class="preu">
+      <p>Preu: {{ preu }} €</p>
+    </div>
   
     <router-link to="/benvinguda">
       <div class="button">Torna enrera</div>
@@ -96,9 +98,19 @@ export default {
   .checkbox {
     margin-bottom: 1em;
   }
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
 
   a {
     text-decoration: none;
+  }
+
+  .preu {
+    margin: 1.8em 0 2em;
+    font-size: 1.2rem;
   }
 
   .button {
