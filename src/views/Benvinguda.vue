@@ -16,7 +16,7 @@
 <style scoped>
   .benvinguda {
     width: 85vw;
-    margin: auto;
+    margin: 2rem auto;
   }
   h1 {
     text-align: center;

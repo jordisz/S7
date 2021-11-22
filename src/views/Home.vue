@@ -97,6 +97,10 @@ export default {
     margin-bottom: 1em;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   .button {
     display: block;
     width: 200px;

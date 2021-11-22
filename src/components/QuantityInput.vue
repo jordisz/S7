@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="quantity-input">
       <button @click="increase">+</button>
       <input type="text" 
         @keypress="filtraNumeros" 
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style>
-.container {
+.quantity-input {
     display: flex;
     align-items:center;
 }
@@ -59,6 +59,5 @@ button {
     line-height: 25px;
     padding-left: 4px;
     color: white;
-
 }
 </style>
