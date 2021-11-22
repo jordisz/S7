@@ -18,6 +18,11 @@
     width: 85vw;
     margin: 2rem auto;
   }
+  @media(min-width: 1024px) {
+    .benvinguda {
+      width: 70vw;
+    }
+  }
   h1 {
     text-align: center;
   }
