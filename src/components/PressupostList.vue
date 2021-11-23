@@ -1,5 +1,10 @@
 <template>
     <div class="pressupost-list">
+        <OrderButtons 
+            v-if="this.pressupostArray.length > 1"
+            v-on:ordreAlfabetic="ordreAlfabetic"
+            v-on:ordreData="ordreData"
+            v-on:ordreID="ordreID"/>
         <div class="pressupost"
             v-for="pressupost in pressupostArray" 
             :key="pressupost.id">
@@ -12,10 +17,25 @@
 </template>
 
 <script>
+import OrderButtons from './OrderButtons.vue'
 export default {
     name: "PressupostList",
+    components: {
+        OrderButtons
+    },
     props: {
         pressupostArray: Array
+    },
+    methods: {
+        ordreAlfabetic() {
+            this.$emit('ordreAlfabetic');
+        },
+        ordreData() {
+            this.$emit('ordreData');
+        },
+        ordreID() {
+            this.$emit('ordreID');
+        }
     }
 }
 </script>
@@ -26,7 +46,7 @@ export default {
         border: 1px solid black;
         border-radius: 10px;
         padding: 1rem;
-        margin-bottom: .4em;
+        margin: 0 auto .4em;
     }
     h3 {
         font-size: 1.2rem;

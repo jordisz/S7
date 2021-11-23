@@ -2,7 +2,8 @@
   <div class="benvinguda">
     <h1>Benvinguda</h1>
     <div>
-      <p>En aquesta aplicació podràs calcular el pressupost dels nostres serveis (creació de pàgines web, SEO i publicitat a Google Ads).
+      <p>En aquesta aplicació podràs calcular el pressupost dels nostres serveis 
+        (creació de pàgines web, SEO i publicitat a Google Ads).
         Si tens més d'un client, podràs generar diferents pressupostos i guardar-los.
       </p>
     </div>
