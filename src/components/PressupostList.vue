@@ -1,10 +1,12 @@
 <template>
     <div class="pressupost-list">
-        <div class="pressupost">
-            <h3>{{pressupostNom}}</h3>
-            <h4>Per a {{pressupostClient}}, {{pressupostData}}</h4>
-            <p>{{pressupostServeis}}</p>
-            <p class="pressupost-preu">{{pressupostPreu}} €</p>
+        <div class="pressupost"
+            v-for="pressupost in pressupostArray" 
+            :key="pressupost.id">
+            <h3>{{pressupost.nom}}</h3>
+            <h4>Per a {{pressupost.client}}, {{pressupost.data.toLocaleString()}}</h4>
+            <p>{{pressupost.serveis}}</p>
+            <p class="pressupost-preu">{{pressupost.preu}} €</p>
         </div>
     </div>
 </template>
@@ -13,11 +15,7 @@
 export default {
     name: "PressupostList",
     props: {
-        pressupostNom: String,
-        pressupostClient: String,
-        pressupostData: String,
-        pressupostServeis: String,
-        pressupostPreu: Number
+        pressupostArray: Array
     }
 }
 </script>

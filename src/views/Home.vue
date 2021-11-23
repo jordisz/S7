@@ -42,13 +42,7 @@
 
     <div class="columna dreta">
       <PressupostList 
-        v-for="pressupost in pressupostArray" 
-        :key="pressupost.id"
-        :pressupostNom="pressupost.nom"
-        :pressupostClient="pressupost.client"
-        :pressupostData="pressupost.data.toLocaleString()"
-        :pressupostServeis="pressupost.serveis"
-        :pressupostPreu="pressupost.preu"
+        :pressupostArray="this.pressupostArray"
         />
     </div>
   </div>
