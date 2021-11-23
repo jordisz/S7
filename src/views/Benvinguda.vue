@@ -7,7 +7,7 @@
       </p>
     </div>
  
-    <router-link to="/">
+    <router-link to="/pressupostos">
       <div class="button">Accedeix</div>
     </router-link>
   </div>

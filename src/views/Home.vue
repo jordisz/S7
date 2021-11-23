@@ -35,7 +35,7 @@
         <button @click="addPressupost">Desa pressupost</button>
       </div>
 
-      <router-link to="/benvinguda">
+      <router-link to="/">
         <div class="button">Torna enrera</div>
       </router-link>
     </div>
