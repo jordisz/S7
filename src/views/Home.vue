@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <p>Què vols fer?</p>
   
     <div class="checkbox">
@@ -24,8 +24,14 @@
       <label>Una campanya de Google Ads (200€)</label>
     </div>
     
-    <p>Preu: {{ preu }} €</p>
+    <div class="preu">
+      <p>Preu: {{ preu }} €</p>
+    </div>
   
+    <router-link to="/benvinguda">
+      <div class="button">Torna enrera</div>
+    </router-link>
+    
   </div>
 </template>
 
@@ -42,8 +48,8 @@ export default {
       web: false,
       seo: false,
       ads: false,
-      pagines: 1,
-      idiomes: 1
+      pagines: 0,
+      idiomes: 0
     }
   },
   computed: {
@@ -84,9 +90,39 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+  .home {
+    width: 85vw;
+    margin: 2rem auto;
+  }
   .checkbox {
     margin-bottom: 1em;
+  }
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .preu {
+    margin: 1.8em 0 2em;
+    font-size: 1.2rem;
+  }
+
+  .button {
+    display: block;
+    width: 200px;
+    text-align: center;
+    background-color: #2f532f;
+    border: 1px solid black;
+    padding: 10px 0;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
   }
 
   .grow-enter-active {
