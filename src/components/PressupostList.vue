@@ -1,10 +1,15 @@
 <template>
     <div class="pressupost-list">
         <OrderButtons 
-            v-if="this.pressupostArray.length > 1"
+            v-if="showBuscador"
             v-on:ordreAlfabetic="ordreAlfabetic"
             v-on:ordreData="ordreData"
             v-on:ordreID="ordreID"/>
+
+        <Buscador
+            v-if="showBuscador"
+            v-on:cerca="cerca"/>
+
         <div class="pressupost"
             v-for="pressupost in pressupostArray" 
             :key="pressupost.id">
@@ -17,14 +22,23 @@
 </template>
 
 <script>
-import OrderButtons from './OrderButtons.vue'
+import OrderButtons from './OrderButtons.vue';
+import Buscador from './Buscador.vue';
+
 export default {
     name: "PressupostList",
     components: {
-        OrderButtons
+        OrderButtons,
+        Buscador
     },
     props: {
-        pressupostArray: Array
+        pressupostArray: Array,
+        showBuscador: Boolean
+    },
+    data() {
+        return {
+            cercat: ''
+        }
     },
     methods: {
         ordreAlfabetic() {
@@ -35,6 +49,10 @@ export default {
         },
         ordreID() {
             this.$emit('ordreID');
+        },
+        cerca(c) {
+            this.$emit('cerca', c);
+            this.cercat = c;
         }
     }
 }

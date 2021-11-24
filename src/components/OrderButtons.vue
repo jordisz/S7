@@ -1,7 +1,7 @@
 <template>
   <div class="order-buttons">
-      <button @click="$emit('ordreAlfabetic')">A-Z</button>
-      <button @click="$emit('ordreData')">Data</button>
+      <button @click="$emit('ordreAlfabetic')">A-Z &nbsp; <font-awesome-icon icon="sort" /></button>
+      <button @click="$emit('ordreData')">Data &nbsp; <font-awesome-icon icon="sort" /></button>
       <button @click="$emit('ordreID')">Restableix ordre</button>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 <style>
     .order-buttons {
         width: 440px;
-        margin: 0 auto 1rem;
+        margin: 0 auto .8rem;
         display: flex;
     }
     button {

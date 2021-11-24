@@ -42,10 +42,12 @@
 
     <div class="columna dreta">
       <PressupostList 
-        :pressupostArray="this.pressupostArray"
+        :pressupostArray="this.filteredPressupostArray"
+        :showBuscador="this.showBuscador"
         v-on:ordreAlfabetic="ordreAlfabetic"
         v-on:ordreData="ordreData"
         v-on:ordreID="ordreID"
+        v-on:cerca="cerca"
         />
     </div>
   </div>
@@ -72,7 +74,8 @@ export default {
       client: '',
       pressupostArray: [],
       alfabeticAscendent: true,
-      dataAscendent: true
+      dataAscendent: true,
+      cercat: ''
     }
   },
   computed: {
@@ -91,6 +94,12 @@ export default {
         total += (this.pagines * this.idiomes * 30)
       }
       return total;
+    },
+    filteredPressupostArray() {
+      return this.pressupostArray.filter(pressupost => pressupost.nom.toLowerCase().match(this.cercat.toLowerCase()));
+    },
+    showBuscador() {
+      return this.pressupostArray.length > 1;
     }
   },
   methods: {
@@ -154,6 +163,9 @@ export default {
 
       this.alfabeticAscendent = true;
       this.dataAscendent = true;
+    },
+    cerca(cerca) {
+      this.cercat = cerca;
     }
   }
 }
