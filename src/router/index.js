@@ -3,12 +3,12 @@ import Home from '../views/Home.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/pressupostos',
     name: 'Home',
     component: Home
   },
   {
-    path: '/benvinguda',
+    path: '/',
     name: 'Benvinguda',
     component: () => import(/* webpackChunkName: "benvinguda" */ '../views/Benvinguda.vue')
   }

@@ -1,47 +1,69 @@
 <template>
   <div class="home">
-    <p>Què vols fer?</p>
-  
-    <div class="checkbox">
-      <input type="checkbox" v-model="web" @click="resetPanell">
-      <label>Una pàgina web (500€)</label>
+    <div class="columna esquerra">
+      <p>Què vols fer?</p>
+      <div class="checkbox">
+        <input type="checkbox" v-model="web" @click="resetPanell">
+        <label>Una pàgina web (500€)</label>
+      </div>
+      <transition name="grow">
+        <Panell
+          v-if="web === true"
+          :paginesInit="this.pagines"
+          :idiomesInit="this.idiomes"
+          v-on:paginesChanged="addPagines"
+          v-on:idiomesChanged="addIdiomes"/>
+      </transition>
+      
+      <div class="checkbox">
+        <input type="checkbox" v-model="seo">
+        <label>Una consultoria SEO (300€)</label>
+      </div>
+      
+      <div class="checkbox">
+        <input type="checkbox" v-model="ads">
+        <label>Una campanya de Google Ads (200€)</label>
+      </div>
+      
+      <div class="preu">
+        <p>Preu: {{ preu }} €</p>
+      </div>
+
+      <div class="save">
+        <label>Nom del pressupost:</label>
+        <input type="text" v-model="nom" />
+        <label>Client:</label>
+        <input type="text" v-model="client" />
+        <button @click="addPressupost">Desa pressupost</button>
+      </div>
+
+      <router-link to="/">
+        <div class="button">Torna enrera</div>
+      </router-link>
     </div>
 
-    <transition name="grow">
-      <Panell
-        v-if="web"
-        v-on:paginesChanged="addPagines"
-        v-on:idiomesChanged="addIdiomes"/>
-    </transition>
-    
-    <div class="checkbox">
-      <input type="checkbox" v-model="seo">
-      <label>Una consultoria SEO (300€)</label>
+    <div class="columna dreta">
+      <PressupostList 
+        :pressupostArray="this.filteredPressupostArray"
+        :showBuscador="this.showBuscador"
+        v-on:ordreAlfabetic="ordreAlfabetic"
+        v-on:ordreData="ordreData"
+        v-on:ordreID="ordreID"
+        v-on:cerca="cerca"
+        />
     </div>
-    
-    <div class="checkbox">
-      <input type="checkbox" v-model="ads">
-      <label>Una campanya de Google Ads (200€)</label>
-    </div>
-    
-    <div class="preu">
-      <p>Preu: {{ preu }} €</p>
-    </div>
-  
-    <router-link to="/benvinguda">
-      <div class="button">Torna enrera</div>
-    </router-link>
-    
   </div>
 </template>
 
 <script>
-import Panell from '@/components/Panell.vue'
+import Panell from '@/components/Panell.vue';
+import PressupostList from '@/components/PressupostList.vue';
 
 export default {
   name: 'Home',
   components: {
-    Panell
+    Panell,
+    PressupostList
   },
   data() {
     return {
@@ -49,25 +71,47 @@ export default {
       seo: false,
       ads: false,
       pagines: 0,
-      idiomes: 0
+      idiomes: 0,
+      nom: '',
+      client: '',
+      pressupostArray: [],
+      alfabeticAscendent: true,
+      dataAscendent: true,
+      cercat: ''
+    }
+  },
+  created() {
+    if (Object.keys(this.$route.query).length !== 0) {
+    this.web = this.$route.query.Web == 'true'  ? true : false;
+    this.seo = this.$route.query.SEO == 'true' ? true : false;
+    this.ads = this.$route.query.GoogleAds == 'true' ? true : false;
+    this.pagines = +this.$route.query.Pagines;
+    this.idiomes = +this.$route.query.Idiomes;
     }
   },
   computed: {
     preu() {
+      this.$router.replace({query: {Web: this.web, SEO: this.seo, GoogleAds: this.ads, Pagines: this.pagines, Idiomes: this.idiomes}});
       let total = 0;
-      if (this.web) {
+      if (this.web === true) {
         total += 500;
       } 
-      if (this.seo) {
+      if (this.seo === true) {
         total += 300;
       } 
-      if (this.ads) {
+      if (this.ads === true) {
         total += 200;
       }
       if (this.pagines > 0 && this.idiomes > 0) {
         total += (this.pagines * this.idiomes * 30)
       }
       return total;
+    },
+    filteredPressupostArray() {
+      return this.pressupostArray.filter(pressupost => pressupost.nom.toLowerCase().match(this.cercat.toLowerCase()));
+    },
+    showBuscador() {
+      return this.pressupostArray.length > 1;
     }
   },
   methods: {
@@ -85,6 +129,55 @@ export default {
         this.pagines = 0;
         this.idiomes = 0;
       }
+    },
+    addPressupost() {
+      let serveisArray = [];
+      if(this.web) serveisArray.push(`Web (${this.pagines} pag. / ${this.idiomes} id.)`);
+      if(this.seo) serveisArray.push('SEO');
+      if(this.ads) serveisArray.push('Google Ads');
+
+      let newPressupost = {
+        id: this.pressupostArray.length,
+        nom: this.nom || 'Sense nom',
+        client: this.client,
+        data: new Date(),
+        serveis: serveisArray.join(', '),
+        preu: this.preu        
+      }
+
+      this.pressupostArray.push(newPressupost);
+
+      this.nom = '';
+      this.client = '';
+      this.web = false;
+      this.seo = false;
+      this.ads = false;
+      this.pagines = 0;
+    },
+    ordreAlfabetic() {
+      if(this.alfabeticAscendent) {
+        this.pressupostArray.sort((a, b) => a.nom.localeCompare(b.nom));
+      } else {
+        this.pressupostArray.sort((a, b) => b.nom.localeCompare(a.nom));
+      }
+      this.alfabeticAscendent = !this.alfabeticAscendent;
+    },
+    ordreData() {
+      if(this.dataAscendent) {
+        this.pressupostArray.sort((a, b) => a.data - b.data);
+      } else {
+        this.pressupostArray.sort((a, b) => b.data - a.data);
+      }
+      this.dataAscendent = !this.dataAscendent;
+    },
+    ordreID() {
+      this.pressupostArray.sort((a, b) => a.id - b.id);
+
+      this.alfabeticAscendent = true;
+      this.dataAscendent = true;
+    },
+    cerca(cerca) {
+      this.cercat = cerca;
     }
   }
 }
@@ -94,6 +187,14 @@ export default {
   .home {
     width: 85vw;
     margin: 2rem auto;
+    display: flex;
+  }
+  .esquerra {
+    width: 40vw;
+  }
+  .dreta {
+    width: 50vw;
+    height: 100vh;
   }
   .checkbox {
     margin-bottom: 1em;
@@ -140,6 +241,22 @@ export default {
     100% {
       transform: scale(1);
     }
+  }
+
+  .save {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4rem;
+  }
+  .save input {
+    width: 40ch;
+    border: 1px solid black;
+    margin-bottom: .3em;
+  }
+  .save button {
+    width: 200px;
+    font-size: 1rem;
+    border-radius: 5px;
   }
 
 </style>

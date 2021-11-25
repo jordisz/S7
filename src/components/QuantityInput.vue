@@ -12,10 +12,13 @@
 <script>
 export default {
     name: "QuantityInput",
-    data() {
+     data() {
         return {
-            quantity: 1
+            quantity: this.quantityInit
         }
+    },
+    props: {
+        quantityInit: Number
     },
     methods: {
         filtraNumeros(e) {
