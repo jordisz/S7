@@ -8,7 +8,9 @@
       </div>
       <transition name="grow">
         <Panell
-          v-if="web"
+          v-if="web === true"
+          :paginesInit="this.pagines"
+          :idiomesInit="this.idiomes"
           v-on:paginesChanged="addPagines"
           v-on:idiomesChanged="addIdiomes"/>
       </transition>
@@ -78,16 +80,26 @@ export default {
       cercat: ''
     }
   },
+  created() {
+    if (Object.keys(this.$route.query).length !== 0) {
+    this.web = this.$route.query.Web == 'true'  ? true : false;
+    this.seo = this.$route.query.SEO == 'true' ? true : false;
+    this.ads = this.$route.query.GoogleAds == 'true' ? true : false;
+    this.pagines = +this.$route.query.Pagines;
+    this.idiomes = +this.$route.query.Idiomes;
+    }
+  },
   computed: {
     preu() {
+      this.$router.replace({query: {Web: this.web, SEO: this.seo, GoogleAds: this.ads, Pagines: this.pagines, Idiomes: this.idiomes}});
       let total = 0;
-      if (this.web) {
+      if (this.web === true) {
         total += 500;
       } 
-      if (this.seo) {
+      if (this.seo === true) {
         total += 300;
       } 
-      if (this.ads) {
+      if (this.ads === true) {
         total += 200;
       }
       if (this.pagines > 0 && this.idiomes > 0) {

@@ -29,7 +29,9 @@
 <!-- panell -->
     <div class="fila">
         <label>Número de pàgines</label>
-        <QuantityInput v-on:quantityChanged="changePagines"/>
+        <QuantityInput 
+            :quantityInit="this.pagines"
+            v-on:quantityChanged="changePagines"/>
         <button type="button" class="info-button" data-bs-toggle="modal" data-bs-target="#paginesModal">
         <font-awesome-icon icon="question-circle" />
         </button>
@@ -37,7 +39,9 @@
     </div>
     <div class="fila">
         <label>Número d'idiomes</label>
-        <QuantityInput v-on:quantityChanged="changeIdiomes"/>
+        <QuantityInput 
+            :quantityInit="this.idiomes"
+            v-on:quantityChanged="changeIdiomes"/>
     <button type="button" class="info-button" data-bs-toggle="modal" data-bs-target="#idiomesModal">
         <font-awesome-icon icon="question-circle" />
         </button>
@@ -54,11 +58,15 @@ export default {
     components: {
         QuantityInput
     },
-    data() {
+     data() {
         return {
-            idiomes: 1,
-            pagines: 1
+            idiomes: this.idiomesInit,
+            pagines: this.paginesInit
         }
+    },
+    props: {
+            idiomesInit: Number,
+            paginesInit: Number
     },
     methods: {
         changePagines(val) {
