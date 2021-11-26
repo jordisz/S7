@@ -66,8 +66,8 @@ export default {
       web: false,
       seo: false,
       ads: false,
-      pagines: 0,
-      idiomes: 0,
+      pagines: 1,
+      idiomes: 1,
       nom: '',
       client: '',
       pressupostArray: []
@@ -84,10 +84,13 @@ export default {
   },
   computed: {
     preu() {
-      this.$router.replace({query: {Web: this.web, SEO: this.seo, GoogleAds: this.ads, Pagines: this.pagines, Idiomes: this.idiomes}});
+      this.$router.replace({
+        query: {Web: this.web, SEO: this.seo, GoogleAds: this.ads, Pagines: this.pagines, Idiomes: this.idiomes}
+        });
+      
       let total = 0;
       if (this.web === true) {
-        total += 500;
+        total += 500 + (this.pagines * this.idiomes * 30);
       } 
       if (this.seo === true) {
         total += 300;
@@ -95,9 +98,7 @@ export default {
       if (this.ads === true) {
         total += 200;
       }
-      if (this.pagines > 0 && this.idiomes > 0) {
-        total += (this.pagines * this.idiomes * 30)
-      }
+
       return total;
     },
     showBuscador() {
@@ -112,13 +113,8 @@ export default {
       this.idiomes = +val;
     },
     resetPanell() {
-      if(!this.web) {
         this.pagines = 1;
         this.idiomes = 1;
-      } else {
-        this.pagines = 0;
-        this.idiomes = 0;
-      }
     },
     addPressupost() {
       let serveisArray = [];
@@ -142,7 +138,8 @@ export default {
       this.web = false;
       this.seo = false;
       this.ads = false;
-      this.pagines = 0;
+      this.pagines = 1;
+      this.idiomes = 1;
     }
   }
 }
