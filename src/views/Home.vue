@@ -44,12 +44,8 @@
 
     <div class="columna dreta">
       <PressupostList 
-        :pressupostArray="this.filteredPressupostArray"
+        :pressupostArray="this.pressupostArray"
         :showBuscador="this.showBuscador"
-        v-on:ordreAlfabetic="ordreAlfabetic"
-        v-on:ordreData="ordreData"
-        v-on:ordreID="ordreID"
-        v-on:cerca="cerca"
         />
     </div>
   </div>
@@ -74,10 +70,7 @@ export default {
       idiomes: 0,
       nom: '',
       client: '',
-      pressupostArray: [],
-      alfabeticAscendent: true,
-      dataAscendent: true,
-      cercat: ''
+      pressupostArray: []
     }
   },
   created() {
@@ -106,9 +99,6 @@ export default {
         total += (this.pagines * this.idiomes * 30)
       }
       return total;
-    },
-    filteredPressupostArray() {
-      return this.pressupostArray.filter(pressupost => pressupost.nom.toLowerCase().match(this.cercat.toLowerCase()));
     },
     showBuscador() {
       return this.pressupostArray.length > 1;
@@ -153,31 +143,6 @@ export default {
       this.seo = false;
       this.ads = false;
       this.pagines = 0;
-    },
-    ordreAlfabetic() {
-      if(this.alfabeticAscendent) {
-        this.pressupostArray.sort((a, b) => a.nom.localeCompare(b.nom));
-      } else {
-        this.pressupostArray.sort((a, b) => b.nom.localeCompare(a.nom));
-      }
-      this.alfabeticAscendent = !this.alfabeticAscendent;
-    },
-    ordreData() {
-      if(this.dataAscendent) {
-        this.pressupostArray.sort((a, b) => a.data - b.data);
-      } else {
-        this.pressupostArray.sort((a, b) => b.data - a.data);
-      }
-      this.dataAscendent = !this.dataAscendent;
-    },
-    ordreID() {
-      this.pressupostArray.sort((a, b) => a.id - b.id);
-
-      this.alfabeticAscendent = true;
-      this.dataAscendent = true;
-    },
-    cerca(cerca) {
-      this.cercat = cerca;
     }
   }
 }
