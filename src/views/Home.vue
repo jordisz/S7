@@ -44,12 +44,8 @@
 
     <div class="columna dreta">
       <PressupostList 
-        :pressupostArray="this.filteredPressupostArray"
+        :pressupostArray="this.pressupostArray"
         :showBuscador="this.showBuscador"
-        v-on:ordreAlfabetic="ordreAlfabetic"
-        v-on:ordreData="ordreData"
-        v-on:ordreID="ordreID"
-        v-on:cerca="cerca"
         />
     </div>
   </div>
@@ -70,14 +66,11 @@ export default {
       web: false,
       seo: false,
       ads: false,
-      pagines: 0,
-      idiomes: 0,
+      pagines: 1,
+      idiomes: 1,
       nom: '',
       client: '',
-      pressupostArray: [],
-      alfabeticAscendent: true,
-      dataAscendent: true,
-      cercat: ''
+      pressupostArray: []
     }
   },
   created() {
@@ -91,10 +84,13 @@ export default {
   },
   computed: {
     preu() {
-      this.$router.replace({query: {Web: this.web, SEO: this.seo, GoogleAds: this.ads, Pagines: this.pagines, Idiomes: this.idiomes}});
+      this.$router.replace({
+        query: {Web: this.web, SEO: this.seo, GoogleAds: this.ads, Pagines: this.pagines, Idiomes: this.idiomes}
+        });
+      
       let total = 0;
       if (this.web === true) {
-        total += 500;
+        total += 500 + (this.pagines * this.idiomes * 30);
       } 
       if (this.seo === true) {
         total += 300;
@@ -102,13 +98,8 @@ export default {
       if (this.ads === true) {
         total += 200;
       }
-      if (this.pagines > 0 && this.idiomes > 0) {
-        total += (this.pagines * this.idiomes * 30)
-      }
+
       return total;
-    },
-    filteredPressupostArray() {
-      return this.pressupostArray.filter(pressupost => pressupost.nom.toLowerCase().match(this.cercat.toLowerCase()));
     },
     showBuscador() {
       return this.pressupostArray.length > 1;
@@ -122,13 +113,8 @@ export default {
       this.idiomes = +val;
     },
     resetPanell() {
-      if(!this.web) {
         this.pagines = 1;
         this.idiomes = 1;
-      } else {
-        this.pagines = 0;
-        this.idiomes = 0;
-      }
     },
     addPressupost() {
       let serveisArray = [];
@@ -152,32 +138,8 @@ export default {
       this.web = false;
       this.seo = false;
       this.ads = false;
-      this.pagines = 0;
-    },
-    ordreAlfabetic() {
-      if(this.alfabeticAscendent) {
-        this.pressupostArray.sort((a, b) => a.nom.localeCompare(b.nom));
-      } else {
-        this.pressupostArray.sort((a, b) => b.nom.localeCompare(a.nom));
-      }
-      this.alfabeticAscendent = !this.alfabeticAscendent;
-    },
-    ordreData() {
-      if(this.dataAscendent) {
-        this.pressupostArray.sort((a, b) => a.data - b.data);
-      } else {
-        this.pressupostArray.sort((a, b) => b.data - a.data);
-      }
-      this.dataAscendent = !this.dataAscendent;
-    },
-    ordreID() {
-      this.pressupostArray.sort((a, b) => a.id - b.id);
-
-      this.alfabeticAscendent = true;
-      this.dataAscendent = true;
-    },
-    cerca(cerca) {
-      this.cercat = cerca;
+      this.pagines = 1;
+      this.idiomes = 1;
     }
   }
 }

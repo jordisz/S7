@@ -31,7 +31,7 @@ export default {
             this.$emit('quantityChanged', this.quantity)
         },
         decrease() {
-            if (this.quantity > 0) {
+            if (this.quantity > 1) {
             this.quantity--;
             this.$emit('quantityChanged', this.quantity)
             }

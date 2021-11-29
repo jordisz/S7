@@ -11,7 +11,7 @@
             v-on:cerca="cerca"/>
 
         <div class="pressupost"
-            v-for="pressupost in pressupostArray" 
+            v-for="pressupost in filteredPressupostArray" 
             :key="pressupost.id">
             <h3>{{pressupost.nom}}</h3>
             <h4>Per a {{pressupost.client}}, {{pressupost.data.toLocaleString()}}</h4>
@@ -37,21 +37,41 @@ export default {
     },
     data() {
         return {
-            cercat: ''
+            alfabeticAscendent: true,
+            dataAscendent: true,
+            cercat: '',
+            pressupostos: this.pressupostArray
+        }
+    },
+    computed: {
+        filteredPressupostArray() {
+            return this.pressupostos.filter(pressupost => pressupost.nom.toLowerCase().match(this.cercat.toLowerCase()));
         }
     },
     methods: {
         ordreAlfabetic() {
-            this.$emit('ordreAlfabetic');
+            if(this.alfabeticAscendent) {
+                this.pressupostos.sort((a, b) => a.nom.localeCompare(b.nom));
+            } else {
+                this.pressupostos.sort((a, b) => b.nom.localeCompare(a.nom));
+            }
+            this.alfabeticAscendent = !this.alfabeticAscendent;
         },
         ordreData() {
-            this.$emit('ordreData');
+            if(this.dataAscendent) {
+                this.pressupostos.sort((a, b) => a.data - b.data);
+            } else {
+                this.pressupostos.sort((a, b) => b.data - a.data);
+            }
+            this.dataAscendent = !this.dataAscendent;
         },
         ordreID() {
-            this.$emit('ordreID');
+            this.pressupostos.sort((a, b) => a.id - b.id);
+
+            this.alfabeticAscendent = true;
+            this.dataAscendent = true;
         },
         cerca(c) {
-            this.$emit('cerca', c);
             this.cercat = c;
         }
     }
